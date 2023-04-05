@@ -1,4 +1,4 @@
-package ru.tvey.CloudServerApp.entity;
+package ru.tvey.cloudserverapp.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
