@@ -1,6 +1,7 @@
 package ru.tvey.cloudserverapp.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.tvey.cloudserverapp.entity.User;
 import ru.tvey.cloudserverapp.repository.UserRepository;
@@ -13,25 +14,32 @@ public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public User getUser(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return unwrapUser(user, id);
+        return unwrapUser(user);
     }
 
     @Override
     public User getUser(String username) {
 
         Optional<User> user = userRepository.findByUsername(username);
-        return unwrapUser(user, 404L);
+        return unwrapUser(user);
     }
 
     @Override
-    public User createUser(User user) {
+    public User createUser(User user)  {
+        if(userRepository.existsByUsername(user.getUsername())){
+            throw new RuntimeException("user already exists");
+        }
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    private User unwrapUser(Optional<User> user, Long id) {
+    private User unwrapUser(Optional<User> user) {
         if (user.isPresent()) return user.get();
         else throw new RuntimeException("User not found");
     }

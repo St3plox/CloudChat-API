@@ -7,7 +7,7 @@ import lombok.NonNull;
 
 @Entity
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @Table(name = "files")
 public class FileStorage {
 
@@ -17,7 +17,7 @@ public class FileStorage {
     private long id;
 
     @Column(name = "content")
-    byte[] content;
+    private byte[] content;
 
 
     @Column(name = "name")
