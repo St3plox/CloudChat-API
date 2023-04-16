@@ -1,10 +1,13 @@
 package ru.tvey.cloudserverapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,5 +29,14 @@ public class User {
     @NotBlank
     @Column(name = "password")
     private String password;
+//
+//    @JsonIgnore
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_file",
+//            joinColumns = @JoinColumn(name ="file_id", referencedColumnName = "file_id"),
+//            inverseJoinColumns = @JoinColumn(name ="user_id", referencedColumnName = "user_id")
+//    )
+//    private Set<FileData> fileStorageSet;
 
 }

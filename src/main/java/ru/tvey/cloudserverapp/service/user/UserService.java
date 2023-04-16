@@ -1,4 +1,4 @@
-package ru.tvey.cloudserverapp.service;
+package ru.tvey.cloudserverapp.service.user;
 
 import ru.tvey.cloudserverapp.entity.User;
 

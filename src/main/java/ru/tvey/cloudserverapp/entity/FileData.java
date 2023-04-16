@@ -1,15 +1,13 @@
 package ru.tvey.cloudserverapp.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 @Entity
 @Data
 @NoArgsConstructor(force = true)
-@Table(name = "files")
-public class FileStorage {
+@Table(name = "file_storage")
+public class FileData {
 
     @Column(name = "file_id")
     @Id
@@ -17,12 +15,22 @@ public class FileStorage {
     private long id;
 
     @Column(name = "content")
+    @NonNull
     private byte[] content;
 
 
     @Column(name = "name")
     @NonNull
     private String name;
+
+    @Column(name = "filetype")
+    @NonNull
+    private String fileType;
+
+    @ManyToOne(optional = false)
+    @NonNull
+    @JoinColumn(name = "owner_name", referencedColumnName = "username")
+    private User ownerName;
 
 
 }
