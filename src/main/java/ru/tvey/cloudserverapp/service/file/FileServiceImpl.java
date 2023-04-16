@@ -14,7 +14,6 @@ import ru.tvey.cloudserverapp.exception.file.UserNotOwnerException;
 import ru.tvey.cloudserverapp.repository.FileDataRepository;
 import ru.tvey.cloudserverapp.repository.UserRepository;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public FileData saveFile(MultipartFile file, Authentication auth) throws Exception {
+    public FileData saveFile(MultipartFile file, Authentication auth) {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         try {
             if (fileName.contains("..")) {
@@ -50,7 +49,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileData serveFile(Long fileId, Authentication auth) throws Exception {
+    public FileData serveFile(Long fileId, Authentication auth) {
         FileData fileData = unwrapFileData(fileDataRepository.findById(fileId));
         ownerMatchesUser(fileData, auth);
 

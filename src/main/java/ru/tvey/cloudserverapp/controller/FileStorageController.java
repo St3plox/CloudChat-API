@@ -27,7 +27,7 @@ public class FileStorageController {
     public ResponseData uploadFile(@RequestParam("file") MultipartFile file,
                                    Authentication auth) throws Exception {
         FileData fileData = fileService.saveFile(file, auth);
-        String downloadURL = "";
+        String downloadURL;
         downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath().
                 path("/download/")
                 .path(String.valueOf(fileData.getId()))

@@ -7,6 +7,6 @@ public interface UserService {
 
     User getUser(String username);
 
-    User createUser(User user);
+    void createUser(User user);
 
 }
