@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.tvey.cloudserverapp.entity.User;
 import ru.tvey.cloudserverapp.exception.user.UserExistsException;
 import ru.tvey.cloudserverapp.repository.UserRepository;
-import ru.tvey.cloudserverapp.utils.EntityService;
+import ru.tvey.cloudserverapp.service.EntityService;
 
 import java.util.Optional;
 
@@ -46,9 +46,4 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
-
-/*    private User unwrapUser(Optional<User> user) {
-        if (user.isPresent()) return user.get();
-        else throw new RuntimeException("User not found");
-    }*/
 }

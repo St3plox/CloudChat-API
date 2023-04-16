@@ -11,7 +11,7 @@ import ru.tvey.cloudserverapp.exception.file.FileSaveException;
 import ru.tvey.cloudserverapp.exception.user.UserNotOwnerException;
 import ru.tvey.cloudserverapp.repository.FileDataRepository;
 import ru.tvey.cloudserverapp.repository.UserRepository;
-import ru.tvey.cloudserverapp.utils.EntityService;
+import ru.tvey.cloudserverapp.service.EntityService;
 
 import java.util.Objects;
 
@@ -73,18 +73,6 @@ public class FileServiceImpl implements FileService {
         return "You have successfully deleted file " + fileData.getName();
 
     }
-/*
-
-    private FileData unwrapFileData(Optional<FileData> file) {
-        if (file.isPresent()) return file.get();
-        else throw new FileNotFoundException("File not found");
-    }
-
-    private User unwrapUser(Optional<User> user) {
-        if (user.isPresent()) return user.get();
-        else throw new RuntimeException("User not found");
-    }
-*/
 
     private boolean ownerMatchesUser(FileData fileData, Authentication auth) {
 
