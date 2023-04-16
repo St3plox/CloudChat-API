@@ -3,6 +3,7 @@ package ru.tvey.cloudserverapp.service.user;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.tvey.cloudserverapp.entity.User;
+import ru.tvey.cloudserverapp.exception.user.UserExistsException;
 import ru.tvey.cloudserverapp.repository.UserRepository;
 import ru.tvey.cloudserverapp.utils.EntityService;
 
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new RuntimeException("user already exists");
+            throw new UserExistsException("User with the name " + user.getUsername() + " already exists");
         }
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

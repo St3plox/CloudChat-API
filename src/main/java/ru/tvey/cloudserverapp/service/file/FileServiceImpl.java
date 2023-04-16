@@ -8,7 +8,7 @@ import ru.tvey.cloudserverapp.entity.FileData;
 import ru.tvey.cloudserverapp.entity.User;
 import ru.tvey.cloudserverapp.exception.file.FileIsEmptyException;
 import ru.tvey.cloudserverapp.exception.file.FileSaveException;
-import ru.tvey.cloudserverapp.exception.file.UserNotOwnerException;
+import ru.tvey.cloudserverapp.exception.user.UserNotOwnerException;
 import ru.tvey.cloudserverapp.repository.FileDataRepository;
 import ru.tvey.cloudserverapp.repository.UserRepository;
 import ru.tvey.cloudserverapp.utils.EntityService;
