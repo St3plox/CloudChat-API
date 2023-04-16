@@ -1,6 +1,8 @@
 package ru.tvey.cloudserverapp.exception.file;
 
-public class FileNotFoundException extends RuntimeException {
+import jakarta.persistence.EntityNotFoundException;
+
+public class FileNotFoundException extends EntityNotFoundException {
     public FileNotFoundException(String message) {
         super(message);
     }
