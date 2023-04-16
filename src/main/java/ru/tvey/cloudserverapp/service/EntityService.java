@@ -1,4 +1,4 @@
-package ru.tvey.cloudserverapp.utils;
+package ru.tvey.cloudserverapp.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
