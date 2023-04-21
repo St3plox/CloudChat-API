@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.tvey.cloudserverapp.entity.FileData;
-import ru.tvey.cloudserverapp.response.ResponseData;
 import ru.tvey.cloudserverapp.service.file.FileService;
 
 import java.io.IOException;
@@ -58,4 +57,9 @@ public class FileStorageController {
                 HttpStatus.NO_CONTENT);
     }
 
+    record ResponseData (String fileName,
+             String downloadURL,
+             String fileType,
+             long fileSize){
+    }
 }
