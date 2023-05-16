@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @Data
 @NoArgsConstructor(force = true)
-@Table(name = "file_storage")
+@Table(name = "file")
 public class FileData {
 
     @Column(name = "file_id")

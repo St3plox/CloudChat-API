@@ -14,14 +14,10 @@ import ru.tvey.cloudserverapp.service.user.UserService;
 public class UserController {
     private UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
-    }// Only for testing purposes
-
     @PostMapping("/register")
     public ResponseEntity<HttpStatus> createUser(@Valid @RequestBody User user) {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }

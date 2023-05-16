@@ -1,10 +1,10 @@
 package ru.tvey.cloudserverapp;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Profile("dev")
 public class FileSystemTest {
 
     @Autowired
@@ -43,11 +44,4 @@ public class FileSystemTest {
         bearerToken = "Bearer " + response;
     }
 
-    @Test
-    void existentUserCanGetTokenAndAuthentication() throws Exception {
-
-        mvc.perform(MockMvcRequestBuilders.get("/cloud/user/10")
-                        .header("Authorization", bearerToken))
-                .andExpect(status().isOk());
-    }
 }
