@@ -29,6 +29,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
+                .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/v3/**").permitAll()
                 .requestMatchers("main/login").permitAll()
                 .requestMatchers("main/register").permitAll()
                 .anyRequest().authenticated()
@@ -37,6 +39,7 @@ public class SecurityConfig {
                 .addFilter(new AuthenticationFilter(authenticationManager))
                 .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         return http.build();
 
     }
