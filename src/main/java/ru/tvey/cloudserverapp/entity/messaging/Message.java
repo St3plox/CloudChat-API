@@ -1,11 +1,12 @@
-package ru.tvey.cloudserverapp.entity;
+package ru.tvey.cloudserverapp.entity.messaging;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.tvey.cloudserverapp.entity.FileData;
 
 @Entity
-@Table(name = "message")
+@Table(name = "messages")
 @Data
 @AllArgsConstructor
 public class Message {
@@ -18,18 +19,13 @@ public class Message {
     private long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "sender_name", referencedColumnName = "username")
-    private User senderName;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "recipient_name", referencedColumnName = "username")
-    private User recipientName;
-
-    @ManyToOne(optional = false)
     @JoinColumn(name = "file_id", referencedColumnName = "file_id")
     private FileData fileId;
 
     @Column(name = "text")
     private String text;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "group_id", referencedColumnName = "group_id")
+    private Group groupId;
 }

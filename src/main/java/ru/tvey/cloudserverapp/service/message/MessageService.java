@@ -1,6 +1,6 @@
 package ru.tvey.cloudserverapp.service.message;
 
-import ru.tvey.cloudserverapp.entity.Message;
+import ru.tvey.cloudserverapp.entity.messaging.Message;
 
 public interface MessageService {
     void sendMessage(String recipient, String sender, String text);

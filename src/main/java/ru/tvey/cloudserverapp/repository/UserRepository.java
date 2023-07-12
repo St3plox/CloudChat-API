@@ -1,7 +1,7 @@
 package ru.tvey.cloudserverapp.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.tvey.cloudserverapp.entity.User;
+import ru.tvey.cloudserverapp.entity.user.User;
 
 import java.util.Optional;
 

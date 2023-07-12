@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.tvey.cloudserverapp.entity.User;
+import ru.tvey.cloudserverapp.entity.user.User;
 import ru.tvey.cloudserverapp.service.user.UserService;
 
 @RestController

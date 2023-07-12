@@ -1,6 +1,6 @@
 package ru.tvey.cloudserverapp.service.user;
 
-import ru.tvey.cloudserverapp.entity.User;
+import ru.tvey.cloudserverapp.entity.user.User;
 
 public interface UserService {
     User getUser(Long id);

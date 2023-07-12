@@ -12,7 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.tvey.cloudserverapp.entity.User;
+import ru.tvey.cloudserverapp.entity.user.User;
 import ru.tvey.cloudserverapp.security.SecurityConstants;
 import ru.tvey.cloudserverapp.security.manager.CustomAuthenticationManager;
 

@@ -2,6 +2,7 @@ package ru.tvey.cloudserverapp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.tvey.cloudserverapp.entity.user.User;
 
 @Entity
 @Data

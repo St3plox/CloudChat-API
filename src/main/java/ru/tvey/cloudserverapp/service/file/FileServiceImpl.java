@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.tvey.cloudserverapp.entity.FileData;
-import ru.tvey.cloudserverapp.entity.User;
+import ru.tvey.cloudserverapp.entity.user.User;
 import ru.tvey.cloudserverapp.exception.file.FileIsEmptyException;
 import ru.tvey.cloudserverapp.exception.file.FileSaveException;
 import ru.tvey.cloudserverapp.exception.user.UserNotOwnerException;
