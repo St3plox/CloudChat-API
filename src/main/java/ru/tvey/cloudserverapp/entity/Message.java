@@ -29,8 +29,9 @@ public class Message {
     private User recipientName;
 
 
-    @Column(name = "file_id")
-    private long fileId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "file_id", referencedColumnName = "file_id")
+    private FileData fileId;
 
     @Column(name = "text")
     private String text;
