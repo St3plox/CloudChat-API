@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.tvey.cloudserverapp.entity.FileData;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "messages")
 @Data
@@ -31,5 +33,8 @@ public class Message {
     @ManyToOne(optional = false)
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     private Group groupId;
+
+    @Column(name = "sent_date")
+    private LocalDate date;
 
 }
