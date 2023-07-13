@@ -1,6 +1,7 @@
 package ru.tvey.cloudserverapp.service.group;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.tvey.cloudserverapp.entity.messaging.Group;
 import ru.tvey.cloudserverapp.entity.user.User;
@@ -16,9 +17,11 @@ public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
     private final EntityService entityService;
 
+
     @Override
-    public Group createGroup(Group group) {
-        return (Group) groupRepository.save(group);
+    public Group createGroup(Authentication auth,
+                             List<String>memberNames, Group group) {
+        return groupRepository.save(group);
     }
 
     @Override
@@ -28,7 +31,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void deleteGroup(Long id) {
+    public void deleteGroup(Authentication auth, Long id) {
         entityService.unwrapEntity(groupRepository.findById(id));
     }
 

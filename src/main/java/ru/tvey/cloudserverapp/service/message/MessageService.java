@@ -1,13 +1,14 @@
 package ru.tvey.cloudserverapp.service.message;
 
+import org.springframework.security.core.Authentication;
+import ru.tvey.cloudserverapp.entity.FileData;
 import ru.tvey.cloudserverapp.entity.messaging.Message;
 
 public interface MessageService {
-    void sendMessage(String recipient, String sender, String text);
+    void sendMessage(Authentication auth, Long groupId,
+                     String text, FileData file);
 
-    void sendMessage(String recipient, String sender, String text, long fileId);
+    Message getMessage(Authentication auth, long id);
 
-    Message getMessage(long id);
-
-    void deleteMessage(long id);
+    void deleteMessage(Authentication auth, long id);
 }

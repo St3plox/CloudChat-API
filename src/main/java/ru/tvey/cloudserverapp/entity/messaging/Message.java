@@ -25,7 +25,11 @@ public class Message {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "sender_name")
+    private String senderName;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     private Group groupId;
+
 }
