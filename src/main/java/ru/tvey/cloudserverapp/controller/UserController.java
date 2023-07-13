@@ -19,5 +19,4 @@ public class UserController {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
 }
