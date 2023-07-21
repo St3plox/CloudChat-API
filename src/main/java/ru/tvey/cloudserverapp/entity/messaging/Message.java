@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import ru.tvey.cloudserverapp.entity.FileData;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Table(name = "messages")
 @Data
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Message {
     public Message() {
     }
@@ -34,7 +36,7 @@ public class Message {
     @Column(name = "sender_name")
     private String senderName;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "group_id")
     private Group groupId;
 
