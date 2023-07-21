@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.tvey.cloudserverapp.datacache.CacheStore;
-import ru.tvey.cloudserverapp.encryption.*;
+import ru.tvey.cloudserverapp.encryption.AsymmetricCipher;
+import ru.tvey.cloudserverapp.encryption.EncryptionConstants;
+import ru.tvey.cloudserverapp.encryption.SymmetricCipher;
+import ru.tvey.cloudserverapp.encryption.SymmetricKeyGenerator;
 import ru.tvey.cloudserverapp.entity.KeyPairEntity;
 import ru.tvey.cloudserverapp.entity.UserKeyIvPair;
 import ru.tvey.cloudserverapp.entity.messaging.Group;
 import ru.tvey.cloudserverapp.entity.messaging.Message;
 import ru.tvey.cloudserverapp.entity.user.User;
-import ru.tvey.cloudserverapp.repository.FileDataRepository;
+import ru.tvey.cloudserverapp.exception.file.EntityNotFoundException;
 import ru.tvey.cloudserverapp.repository.KeyPairEntityRepository;
 import ru.tvey.cloudserverapp.repository.MessageRepository;
 import ru.tvey.cloudserverapp.security.SecurityConstants;
@@ -29,6 +32,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -42,8 +46,6 @@ public class MessageServiceImpl implements MessageService {
 
     private final UserService userService;
 
-    private final AsymmetricKeyGenerator asymmetricKeyGenerator;
-
     private final SymmetricKeyGenerator symmetricKeyGenerator;
 
     private final CacheStore<UserKeyIvPair> keyCacheStore;
@@ -51,8 +53,6 @@ public class MessageServiceImpl implements MessageService {
     private final EntityService entityService;
 
     private final AsymmetricCipher asymmetricCipher;
-
-    private final FileDataRepository fileDataRepository;
 
     private final SymmetricCipher symmetricCipher;
 
@@ -115,7 +115,7 @@ public class MessageServiceImpl implements MessageService {
                             new IvParameterSpec(ivB),
                             Cipher.ENCRYPT_MODE);
 
-            message.setText( Base64.getEncoder().encodeToString(encTextBytes));
+            message.setText(Base64.getEncoder().encodeToString(encTextBytes));
             messageRepository.save(message);
             return;
         }
@@ -128,7 +128,7 @@ public class MessageServiceImpl implements MessageService {
 
         byte[] encryptedTextBytes = symmetricCipher.doCrypto(text.getBytes(), EncryptionConstants.AES_ALGO,
                 secretKey, ivParameterSpec, Cipher.ENCRYPT_MODE);
-        text =  Base64.getEncoder().encodeToString(encryptedTextBytes);
+        text = Base64.getEncoder().encodeToString(encryptedTextBytes);
 
         message.setText(text);
 
@@ -147,10 +147,9 @@ public class MessageServiceImpl implements MessageService {
         for (long id : groupUserIds) {
             if (id != senderId) {
                 User user = userService.getUser(id);
-                StringBuilder keyCacheSBuilder = new StringBuilder();
-                keyCacheSBuilder.append(user.getUsername());
-                keyCacheSBuilder.append('.');
-                keyCacheSBuilder.append(SecurityConstants.CACHE_SECRET);
+                String keyCacheSBuilder = user.getUsername() +
+                        '.' +
+                        SecurityConstants.CACHE_SECRET;
 
                 KeyPairEntity userKPE = (KeyPairEntity) entityService.
                         unwrapEntity(keyPairEntityRepository.
@@ -167,7 +166,7 @@ public class MessageServiceImpl implements MessageService {
 
                 UserKeyIvPair userKeyIvPair = new UserKeyIvPair(userEncryptedKeyBytes, iv);
 
-                keyCacheStore.add(keyCacheSBuilder.toString(), userKeyIvPair);
+                keyCacheStore.add(keyCacheSBuilder, userKeyIvPair);
             }
         }
         messageRepository.save(message);
@@ -185,7 +184,7 @@ public class MessageServiceImpl implements MessageService {
         User user = userService.getUser(auth.getName());
         List<Long> userIds = groupService.getIdsOfGroup(message.getGroupId().getId());
 
-        if(!userIds.contains(user.getId())){
+        if (!userIds.contains(user.getId())) {
             throw new RuntimeException("user does not belong to the group");
         }
 
@@ -225,10 +224,52 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void deleteMessage(Authentication auth, long id) {
 
+        Message message = (Message) entityService.unwrapEntity(messageRepository.findById(id));
+
+        if (!Objects.equals(message.getSenderName(), auth.getName())) {
+            throw new RuntimeException("User is not message sender");
+        }
+
+        messageRepository.delete(message);
     }
 
     @Override
-    public List<LocalDate> getLastNMessages(Authentication auth, long id) {
-        return null;
+    public void deleteMessage(long id) {
+        Message message = (Message) entityService.unwrapEntity(messageRepository.findById(id));
+
+        messageRepository.delete(message);
     }
+
+
+    @Override
+    public Message[] getLastNMessages(Authentication auth, long groupId, int numberOfMessages)
+            throws InvalidAlgorithmParameterException, NoSuchPaddingException,
+            IllegalBlockSizeException, NoSuchAlgorithmException,
+            BadPaddingException, InvalidKeySpecException,
+            InvalidKeyException {
+
+        List<Long> userIds = groupService.getIdsOfGroup(groupId);
+        User user = userService.getUser(auth.getName());
+        if (!userIds.contains(user.getId())) {
+            throw new RuntimeException("user does not belong to the group");
+        }
+
+        Group group = groupService.getGroup(groupId);
+        if (group == null) {
+            throw new EntityNotFoundException("group with id " +groupId + "is not present");
+        }
+
+        List<Message> encryptedMessageList = messageRepository.
+                findLastNMessagesSortedByLocalDateAndGroup(numberOfMessages, group);
+
+        Message[] decryptedMessages = new Message[encryptedMessageList.size()];
+
+        for (int i = 0; i < decryptedMessages.length; i++) {
+            decryptedMessages[i] = getMessage(auth, encryptedMessageList.get(i).getId());
+        }
+
+        return decryptedMessages;
+    }
+
+
 }

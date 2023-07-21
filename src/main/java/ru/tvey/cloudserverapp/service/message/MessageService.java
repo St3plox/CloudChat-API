@@ -11,7 +11,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
-import java.util.List;
 
 public interface MessageService {
     void sendMessage(Authentication auth,
@@ -24,5 +23,7 @@ public interface MessageService {
 
     void deleteMessage(Authentication auth, long id);
 
-    List<LocalDate> getLastNMessages(Authentication auth, long groupId);
+    void deleteMessage(long id);
+
+    Message[] getLastNMessages(Authentication auth, long groupId, int numberOfMessages) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeySpecException, InvalidKeyException;
 }
