@@ -12,14 +12,12 @@ import java.security.SecureRandom;
 public class SymmetricKeyGenerator {
     private SecretKeySpec secretKey;
 
-    public SymmetricKeyGenerator()
-            throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public SymmetricKeyGenerator() {
 
         SecureRandom rnd = new SecureRandom();
-        byte [] key = new byte [EncryptionConstants.KEY_LENGTH];
+        byte [] key = new byte [32];
         rnd.nextBytes(key);
         this.secretKey = new SecretKeySpec(key, "AES");
-
     }
 
     public SecretKeySpec getKey(){
