@@ -12,6 +12,7 @@ import ru.tvey.cloudserverapp.service.EntityService;
 import ru.tvey.cloudserverapp.service.user.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -64,5 +65,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<Long> getAllGroupsOfUser(Long userId) {
         return groupMemberRepository.findAllGroupsByUser(userId);
+    }
+
+    @Override
+    public Optional<Long> getUserIdOfGroup(long userId, long groupId) {
+
+        return Optional.ofNullable(groupMemberRepository.findUserInGroup(userId, groupId));
     }
 }
