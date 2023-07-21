@@ -33,10 +33,10 @@ public class MessageController {
                                                   @RequestParam String groupId,
                                                   @RequestParam(required = false) String fileId) throws Exception {
 
-        Long idOfGroup = Long.valueOf(groupId.toString());
+        Long idOfGroup = Long.valueOf(groupId);
         Long idOfFile = null;
         if (fileId != null) {
-            idOfFile = Long.valueOf(fileId.toString());
+            idOfFile = Long.valueOf(fileId);
         }
         messageService.sendMessage(auth, text, date, idOfGroup, idOfFile);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
@@ -46,5 +46,23 @@ public class MessageController {
     public ResponseEntity<Message> getMessage(@PathVariable Long id, Authentication auth)
             throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, InvalidKeySpecException {
         return new ResponseEntity<>(messageService.getMessage(auth, id), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("group/{id}/{n}")
+    public ResponseEntity<Message[]> getLastNMessages (@PathVariable long id, Authentication auth, @PathVariable int n)
+            throws InvalidAlgorithmParameterException, NoSuchPaddingException,
+            IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException,
+            InvalidKeySpecException, InvalidKeyException {
+
+        Message[] messages = messageService.getLastNMessages(auth, id, n);
+
+        return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> deleteMessage(@PathVariable long id, Authentication auth) {
+        messageService.deleteMessage(auth, id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
