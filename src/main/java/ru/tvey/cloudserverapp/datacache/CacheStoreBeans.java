@@ -2,8 +2,8 @@ package ru.tvey.cloudserverapp.datacache;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.tvey.cloudserverapp.entity.UserKeyIvPair;
 
-import java.security.Key;
 import java.util.concurrent.TimeUnit;
 
 
@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 public class CacheStoreBeans {
 
     @Bean
-    public CacheStore<Key> keyCacheStore() {
+    public CacheStore<UserKeyIvPair> keyCacheStore() {
         return new CacheStore<>(12, TimeUnit.HOURS);
     }
-
+//cacheKey = "username.'typeOfKey.toClass.toString'.groupId"
 }
