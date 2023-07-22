@@ -13,7 +13,10 @@ import ru.tvey.cloudserverapp.entity.UserKeyIvPair;
 import ru.tvey.cloudserverapp.entity.messaging.Group;
 import ru.tvey.cloudserverapp.entity.messaging.Message;
 import ru.tvey.cloudserverapp.entity.user.User;
+import ru.tvey.cloudserverapp.exception.cache.CacheException;
 import ru.tvey.cloudserverapp.exception.file.EntityNotFoundException;
+import ru.tvey.cloudserverapp.exception.user.UserAuthorityException;
+import ru.tvey.cloudserverapp.exception.user.UserNotOwnerException;
 import ru.tvey.cloudserverapp.repository.KeyPairEntityRepository;
 import ru.tvey.cloudserverapp.repository.MessageRepository;
 import ru.tvey.cloudserverapp.security.SecurityConstants;
@@ -185,7 +188,7 @@ public class MessageServiceImpl implements MessageService {
         List<Long> userIds = groupService.getIdsOfGroup(message.getGroupId().getId());
 
         if (!userIds.contains(user.getId())) {
-            throw new RuntimeException("user does not belong to the group");
+            throw new UserAuthorityException("user does not belong to the group");
         }
 
         String text = message.getText();
@@ -193,7 +196,7 @@ public class MessageServiceImpl implements MessageService {
         UserKeyIvPair userKeyIvPair = keyCacheStore.get(auth.getName() + "." + SecurityConstants.CACHE_SECRET);
 
         if (userKeyIvPair == null) {
-            throw new RuntimeException("there is no such message key in the cache");
+            throw new CacheException("there is no such message key in the cache");
         }
 
         KeyPairEntity keyPair = (KeyPairEntity) entityService.
@@ -227,7 +230,7 @@ public class MessageServiceImpl implements MessageService {
         Message message = (Message) entityService.unwrapEntity(messageRepository.findById(id));
 
         if (!Objects.equals(message.getSenderName(), auth.getName())) {
-            throw new RuntimeException("User is not message sender");
+            throw new UserAuthorityException("User is not message sender");
         }
 
         messageRepository.delete(message);
@@ -251,13 +254,10 @@ public class MessageServiceImpl implements MessageService {
         List<Long> userIds = groupService.getIdsOfGroup(groupId);
         User user = userService.getUser(auth.getName());
         if (!userIds.contains(user.getId())) {
-            throw new RuntimeException("user does not belong to the group");
+            throw new UserAuthorityException("user does not belong to the group");
         }
 
         Group group = groupService.getGroup(groupId);
-        if (group == null) {
-            throw new EntityNotFoundException("group with id " +groupId + "is not present");
-        }
 
         List<Message> encryptedMessageList = messageRepository.
                 findLastNMessagesSortedByLocalDateAndGroup(numberOfMessages, group);

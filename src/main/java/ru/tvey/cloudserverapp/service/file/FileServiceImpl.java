@@ -35,7 +35,7 @@ public class FileServiceImpl implements FileService {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         try {
             if (fileName.contains("..")) {
-                throw new Exception("Filename is invalid");
+                throw new FileSaveException("Filename is invalid");
             }
             if (!file.isEmpty()) {
 
