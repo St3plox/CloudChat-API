@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
     default List<Message> findLastNMessagesSortedByLocalDateAndGroup(int n, Group groupId) {
-        PageRequest pageRequest = PageRequest.of(0, n, Sort.by(Sort.Direction.DESC, "sent_date", "group_id"));
+        PageRequest pageRequest = PageRequest.of(0, n, Sort.by(Sort.Direction.DESC, "date", "groupId"));
         return findAllByGroupIdOrderByDateDesc(groupId, pageRequest);
     }
     List<Message> findAllByGroupIdOrderByDateDesc(Group groupId, PageRequest pageRequest);
