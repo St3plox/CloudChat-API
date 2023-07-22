@@ -5,7 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import ru.tvey.cloudserverapp.entity.messaging.Group;
 import ru.tvey.cloudserverapp.entity.user.User;
-import ru.tvey.cloudserverapp.exception.file.EntityNotFoundException;
 import ru.tvey.cloudserverapp.exception.user.UserAuthorityException;
 import ru.tvey.cloudserverapp.exception.user.UserExistsException;
 import ru.tvey.cloudserverapp.repository.GroupMemberRepository;
@@ -99,7 +98,6 @@ public class GroupServiceImpl implements GroupService {
 
     private List<Long> groupBelongCheck(Authentication auth, long groupId) {
         User user = userService.getUser(auth.getName());
-        Group group = getGroup(groupId);
 
         List<Long> userIds = getIdsOfGroup(groupId);
         if (!userIds.contains(user.getId())) {

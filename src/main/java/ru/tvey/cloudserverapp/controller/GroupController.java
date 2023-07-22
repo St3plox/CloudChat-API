@@ -1,6 +1,5 @@
 package ru.tvey.cloudserverapp.controller;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
