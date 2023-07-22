@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.tvey.cloudserverapp.entity.messaging.Group;
 import ru.tvey.cloudserverapp.entity.user.User;
 import ru.tvey.cloudserverapp.exception.file.EntityNotFoundException;
+import ru.tvey.cloudserverapp.exception.user.UserAuthorityException;
+import ru.tvey.cloudserverapp.exception.user.UserExistsException;
 import ru.tvey.cloudserverapp.repository.GroupMemberRepository;
 import ru.tvey.cloudserverapp.repository.GroupRepository;
 import ru.tvey.cloudserverapp.service.EntityService;
@@ -27,13 +29,10 @@ public class GroupServiceImpl implements GroupService {
     private final GroupMemberRepository groupMemberRepository;
 
     @Override
-    public Group createGroup(Authentication auth, String recipientName, Group group) {
+    public Group createGroup(Authentication auth, Group group) {
         User sender = userService.getUser(auth.getName());
-        User recipient = userService.getUser(recipientName);
-        if (sender == null || recipient == null) throw new EntityNotFoundException(recipientName + " not found");
 
         groupRepository.save(group);
-        groupMemberRepository.createGroupMember(group.getId(), sender.getId());
         groupMemberRepository.createGroupMember(group.getId(), sender.getId());
 
         return group;
@@ -47,7 +46,6 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public void deleteGroup(Authentication auth, Long groupId) {
         User user = userService.getUser(auth.getName());
-        if (user == null) throw new EntityNotFoundException(auth.getName() + " not found");
 
         List<Long> groupIds = groupMemberRepository.findAllGroupsByUser(user.getId());
 
@@ -72,4 +70,42 @@ public class GroupServiceImpl implements GroupService {
 
         return Optional.ofNullable(groupMemberRepository.findUserInGroup(userId, groupId));
     }
+
+    @Override
+    public void addMember(Authentication auth, long memberId, long groupId) {
+
+        List<Long> userIds = groupBelongCheck(auth, groupId);
+        User member = userService.getUser(memberId);
+
+        if (userIds.contains(memberId)) {
+            throw new UserExistsException("User " + member.getUsername() + "is already in the group");
+        }
+
+        groupMemberRepository.createGroupMember(groupId, memberId);
+    }
+
+    @Override
+    public void addMember(Authentication auth, String username, long groupId) {
+        List<Long> userIds = groupBelongCheck(auth, groupId);
+        User member = userService.getUser(username);
+
+        if(userIds.contains(member.getId())){
+            throw new UserExistsException("User " + member.getUsername() + "is already in the group");
+        }
+
+        groupMemberRepository.createGroupMember(groupId, member.getId());
+
+    }
+
+    private List<Long> groupBelongCheck(Authentication auth, long groupId) {
+        User user = userService.getUser(auth.getName());
+        Group group = getGroup(groupId);
+
+        List<Long> userIds = getIdsOfGroup(groupId);
+        if (!userIds.contains(user.getId())) {
+            throw new UserAuthorityException(auth.getName() + " is not in the group");
+        }
+        return userIds;
+    }
+
 }

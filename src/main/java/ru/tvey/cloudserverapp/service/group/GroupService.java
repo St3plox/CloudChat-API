@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GroupService {
-    Group createGroup(Authentication auth,
-                      String recipientName, Group group);
+    Group createGroup(Authentication auth, Group group);
 
     Group getGroup(Long id);
 
@@ -19,4 +18,9 @@ public interface GroupService {
     List<Long> getAllGroupsOfUser(Long userId);
 
     Optional<Long> getUserIdOfGroup(long userId, long groupId);
+
+    void addMember(Authentication auth, long memberId, long groupId);
+
+    void addMember(Authentication auth, String username, long groupId);
+
 }
