@@ -71,6 +71,6 @@ public class MessageScheduler {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }, delayInHours, TimeUnit.MINUTES);
+        }, delayInHours, TimeUnit.HOURS);
     }
 }
