@@ -10,11 +10,9 @@ import ru.tvey.cloudserverapp.repository.MessageRepository;
 import ru.tvey.cloudserverapp.security.SecurityConstants;
 import ru.tvey.cloudserverapp.service.EntityService;
 import ru.tvey.cloudserverapp.service.group.GroupService;
-import ru.tvey.cloudserverapp.service.message.MessageService;
 
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -66,13 +64,13 @@ public class MessageScheduler {
         }
     }
 
-    public Future<?> scheduleWithArgument(long argument, long delayInSeconds) {
-        return executor.schedule(() -> {
+    public void scheduleWithArgument(long argument, long delayInHours) {
+        executor.schedule(() -> {
             try {
                 deleteMessages(argument);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }, delayInSeconds, TimeUnit.SECONDS);
+        }, delayInHours, TimeUnit.HOURS);
     }
 }

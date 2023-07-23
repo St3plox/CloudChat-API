@@ -174,7 +174,7 @@ public class MessageServiceImpl implements MessageService {
             }
         }
         messageRepository.save(message);
-        messageScheduler.deleteMessages(message.getGroupId().getId());
+        messageScheduler.scheduleWithArgument(message.getGroupId().getId(), 12);//
     }
     //cacheKey = "username.cache_secret"
 
