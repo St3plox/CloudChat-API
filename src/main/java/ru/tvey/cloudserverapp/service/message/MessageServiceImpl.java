@@ -17,6 +17,7 @@ import ru.tvey.cloudserverapp.exception.cache.CacheException;
 import ru.tvey.cloudserverapp.exception.user.UserAuthorityException;
 import ru.tvey.cloudserverapp.repository.KeyPairEntityRepository;
 import ru.tvey.cloudserverapp.repository.MessageRepository;
+import ru.tvey.cloudserverapp.scheduled.MessageScheduler;
 import ru.tvey.cloudserverapp.security.SecurityConstants;
 import ru.tvey.cloudserverapp.service.EntityService;
 import ru.tvey.cloudserverapp.service.file.FileService;
@@ -58,6 +59,8 @@ public class MessageServiceImpl implements MessageService {
     private final SymmetricCipher symmetricCipher;
 
     private final KeyPairEntityRepository keyPairEntityRepository;
+
+    private final MessageScheduler messageScheduler;
 
 
     @Override
@@ -171,6 +174,7 @@ public class MessageServiceImpl implements MessageService {
             }
         }
         messageRepository.save(message);
+        messageScheduler.deleteMessages(message.getGroupId().getId());
     }
     //cacheKey = "username.cache_secret"
 

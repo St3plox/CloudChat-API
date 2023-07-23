@@ -14,4 +14,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
         return findAllByGroupIdOrderByDateDesc(groupId, pageRequest);
     }
     List<Message> findAllByGroupIdOrderByDateDesc(Group groupId, PageRequest pageRequest);
+
+    List<Long> findAllByGroupId(Group group);
 }
