@@ -12,7 +12,7 @@ public class CacheStoreBeans {
 
     @Bean
     public CacheStore<UserKeyIvPair> keyCacheStore() {
-        return new CacheStore<>(12, TimeUnit.HOURS);
+        return new CacheStore<>(1, TimeUnit.MINUTES);
     }
 //cacheKey = "username.'typeOfKey.toClass.toString'.groupId"
 }

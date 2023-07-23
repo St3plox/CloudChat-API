@@ -35,7 +35,7 @@ public class MessageScheduler {
     public void deleteMessages(long groupId) throws InterruptedException {
 
         Group group = groupService.getGroup(groupId);
-        List<Long> messageIds = messageRepository.findAllByGroupId(group);
+        List<Long> messageIds = messageRepository.findMessageIdsByGroupId(group);
 
         if (messageIds.isEmpty()) return;
 
@@ -71,6 +71,6 @@ public class MessageScheduler {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }, delayInHours, TimeUnit.HOURS);
+        }, delayInHours, TimeUnit.MINUTES);
     }
 }
