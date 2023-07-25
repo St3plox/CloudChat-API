@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 
 @Component
 public class SymmetricKeyGenerator {
-    private SecretKeySpec secretKey;
+    private final SecretKeySpec secretKey;
 
     public SymmetricKeyGenerator() {
 
