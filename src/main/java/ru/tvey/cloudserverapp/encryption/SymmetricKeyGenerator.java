@@ -2,10 +2,7 @@ package ru.tvey.cloudserverapp.encryption;
 
 import org.springframework.stereotype.Component;
 
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 @Component

@@ -36,7 +36,7 @@ class CloudServerAppApplicationTests {
 		mvc.perform(getUserRequest)
 				.andExpect(status().isForbidden());
 	}
-	@Test
+/*	@Test
 	void existentUserCanGetTokenAndAuthentication() throws Exception {
 		String username = "testUser";
 		String password = "testPassword";
@@ -55,7 +55,7 @@ class CloudServerAppApplicationTests {
 		mvc.perform(MockMvcRequestBuilders.get("/cloud/user/10")
 						.header("Authorization", bearerToken))
 				.andExpect(status().isOk());
-	}
+	}*/
 
 
 

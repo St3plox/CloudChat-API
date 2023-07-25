@@ -12,7 +12,7 @@ import ru.tvey.cloudserverapp.exception.user.UserNotOwnerException;
 @ControllerAdvice
 public class FileExceptionHandler extends ResponseEntityExceptionHandler{
 
-    @ExceptionHandler({EntityNotFoundException.class, FileIsEmptyException.class})
+    @ExceptionHandler(value = {EntityNotFoundException.class, FileIsEmptyException.class})
     public ResponseEntity<String> handleFileNotFound(RuntimeException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }

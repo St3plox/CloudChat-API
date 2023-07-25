@@ -10,12 +10,12 @@ import ru.tvey.cloudserverapp.exception.user.UserAuthorityException;
 
 @ControllerAdvice
 public class MessagingExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler({CacheException.class})
+    @ExceptionHandler(value = {CacheException.class})
     public ResponseEntity<String> handleCache(RuntimeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({UserAuthorityException.class})
+    @ExceptionHandler(value = {UserAuthorityException.class})
     public ResponseEntity<String> handleUserAuthority(RuntimeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
