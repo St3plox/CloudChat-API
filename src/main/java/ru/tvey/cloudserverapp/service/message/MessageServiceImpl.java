@@ -85,7 +85,9 @@ public class MessageServiceImpl implements MessageService {
         message.setGroupId(group);
         message.setSenderName(auth.getName());
 
-        String keyForSenderCache = auth.getName() + "." + SecurityConstants.CACHE_SECRET;
+        String keyForSenderCache =
+                auth.getName() + "." + SecurityConstants.CACHE_SECRET
+                        + "." + message.getGroupId();
 
 
         KeyPairEntity senderKeyPairEntity = (KeyPairEntity) entityService.
@@ -153,7 +155,8 @@ public class MessageServiceImpl implements MessageService {
                 User user = userService.getUser(id);
                 String keyCacheSBuilder = user.getUsername() +
                         '.' +
-                        SecurityConstants.CACHE_SECRET;
+                        SecurityConstants.CACHE_SECRET
+                        + "." + message.getGroupId();
 
                 KeyPairEntity userKPE = (KeyPairEntity) entityService.
                         unwrapEntity(keyPairEntityRepository.
@@ -195,7 +198,10 @@ public class MessageServiceImpl implements MessageService {
 
         String text = message.getText();
 
-        UserKeyIvPair userKeyIvPair = keyCacheStore.get(auth.getName() + "." + SecurityConstants.CACHE_SECRET);
+        UserKeyIvPair userKeyIvPair =
+                keyCacheStore.get(auth.getName() + "."
+                        + SecurityConstants.CACHE_SECRET +
+                        "." + message.getGroupId());
 
         if (userKeyIvPair == null) {
             throw new CacheException("there is no such message key in the cache");

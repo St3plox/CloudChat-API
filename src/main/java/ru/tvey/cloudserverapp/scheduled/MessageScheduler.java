@@ -42,7 +42,9 @@ public class MessageScheduler {
         Message message =
                 (Message) entityService.unwrapEntity(messageRepository.findById(messageIds.get(0)));
 
-        String cacheKey = message.getSenderName() + "." + SecurityConstants.CACHE_SECRET;
+        String cacheKey =
+                message.getSenderName() + "." + SecurityConstants.CACHE_SECRET
+                + "." + message.getGroupId();
 
         UserKeyIvPair userKeyIvPair;
 
