@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.tvey</groupId>
 	<artifactId>CloudServerApp</artifactId>
-	<version>0.2.2-SNAPSHOT</version>
+	<version>0.2.4-SNAPSHOT</version>
 	<name>CloudServerApp</name>
 	<description>Demo project for cloud app</description>
 	<properties>
