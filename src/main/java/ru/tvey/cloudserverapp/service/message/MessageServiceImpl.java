@@ -3,7 +3,6 @@ package ru.tvey.cloudserverapp.service.message;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import ru.tvey.cloudserverapp.datacache.CacheKeyGenerator;
 import ru.tvey.cloudserverapp.datacache.CacheStore;
 import ru.tvey.cloudserverapp.encryption.AsymmetricCipher;
 import ru.tvey.cloudserverapp.encryption.EncryptionConstants;
@@ -19,6 +18,7 @@ import ru.tvey.cloudserverapp.exception.user.UserAuthorityException;
 import ru.tvey.cloudserverapp.repository.KeyPairEntityRepository;
 import ru.tvey.cloudserverapp.repository.MessageRepository;
 import ru.tvey.cloudserverapp.scheduled.MessageScheduler;
+import ru.tvey.cloudserverapp.security.SecurityConstants;
 import ru.tvey.cloudserverapp.service.EntityService;
 import ru.tvey.cloudserverapp.service.file.FileService;
 import ru.tvey.cloudserverapp.service.group.GroupService;
@@ -61,8 +61,6 @@ public class MessageServiceImpl implements MessageService {
     private final KeyPairEntityRepository keyPairEntityRepository;
 
     private final MessageScheduler messageScheduler;
-
-    private final CacheKeyGenerator cacheKeyGenerator;
 
 
     @Override

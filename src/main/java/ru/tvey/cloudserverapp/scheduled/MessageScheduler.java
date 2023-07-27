@@ -2,12 +2,12 @@ package ru.tvey.cloudserverapp.scheduled;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.tvey.cloudserverapp.datacache.CacheKeyGenerator;
 import ru.tvey.cloudserverapp.datacache.CacheStore;
 import ru.tvey.cloudserverapp.entity.UserKeyIvPair;
 import ru.tvey.cloudserverapp.entity.messaging.Group;
 import ru.tvey.cloudserverapp.entity.messaging.Message;
 import ru.tvey.cloudserverapp.repository.MessageRepository;
+import ru.tvey.cloudserverapp.security.SecurityConstants;
 import ru.tvey.cloudserverapp.service.EntityService;
 import ru.tvey.cloudserverapp.service.group.GroupService;
 
@@ -27,8 +27,6 @@ public class MessageScheduler {
     private final CacheStore<UserKeyIvPair> cacheStore;
 
     private final EntityService entityService;
-
-    private final CacheKeyGenerator cacheKeyGenerator;
 
     private final ScheduledExecutorService executor =
             Executors.newSingleThreadScheduledExecutor();

@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
                 .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/v3/**").permitAll()
+                .requestMatchers("main/login").permitAll()
+                .requestMatchers("main/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new ExceprionHandlerFilter(), AuthenticationFilter.class)
