@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/main/java/ru.tvey.cloudserverapp.security
+src/main/java/ru/tvey/cloudserverapp/security/SecurityConstants.java
 
 ### STS ###
 .apt_generated
