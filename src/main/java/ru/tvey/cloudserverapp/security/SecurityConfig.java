@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 import ru.tvey.cloudserverapp.security.filter.AuthenticationFilter;
 import ru.tvey.cloudserverapp.security.filter.ExceprionHandlerFilter;
 import ru.tvey.cloudserverapp.security.filter.JWTAuthorizationFilter;
@@ -26,13 +27,13 @@ public class SecurityConfig {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
         authenticationFilter.setFilterProcessesUrl("/authenticate");
         http
+                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and()
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
                 .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/v3/**").permitAll()
-                .requestMatchers("main/login").permitAll()
-                .requestMatchers("main/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new ExceprionHandlerFilter(), AuthenticationFilter.class)

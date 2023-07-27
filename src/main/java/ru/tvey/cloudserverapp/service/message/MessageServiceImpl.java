@@ -3,6 +3,7 @@ package ru.tvey.cloudserverapp.service.message;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import ru.tvey.cloudserverapp.datacache.CacheKeyGenerator;
 import ru.tvey.cloudserverapp.datacache.CacheStore;
 import ru.tvey.cloudserverapp.encryption.AsymmetricCipher;
 import ru.tvey.cloudserverapp.encryption.EncryptionConstants;
@@ -18,7 +19,6 @@ import ru.tvey.cloudserverapp.exception.user.UserAuthorityException;
 import ru.tvey.cloudserverapp.repository.KeyPairEntityRepository;
 import ru.tvey.cloudserverapp.repository.MessageRepository;
 import ru.tvey.cloudserverapp.scheduled.MessageScheduler;
-import ru.tvey.cloudserverapp.security.SecurityConstants;
 import ru.tvey.cloudserverapp.service.EntityService;
 import ru.tvey.cloudserverapp.service.file.FileService;
 import ru.tvey.cloudserverapp.service.group.GroupService;
@@ -62,6 +62,8 @@ public class MessageServiceImpl implements MessageService {
 
     private final MessageScheduler messageScheduler;
 
+    private final CacheKeyGenerator cacheKeyGenerator;
+
 
     @Override
     public void sendMessage(Authentication auth, String text,
@@ -85,7 +87,8 @@ public class MessageServiceImpl implements MessageService {
         message.setGroupId(group);
         message.setSenderName(auth.getName());
 
-        String keyForSenderCache = auth.getName() + "." + SecurityConstants.CACHE_SECRET;
+        String keyForSenderCache =
+                cacheKeyGenerator.generateCacheKey(auth.getName(), message.getGroupId().getId());
 
 
         KeyPairEntity senderKeyPairEntity = (KeyPairEntity) entityService.
@@ -151,9 +154,8 @@ public class MessageServiceImpl implements MessageService {
         for (long id : groupUserIds) {
             if (id != senderId) {
                 User user = userService.getUser(id);
-                String keyCacheSBuilder = user.getUsername() +
-                        '.' +
-                        SecurityConstants.CACHE_SECRET;
+                String keyCacheSBuilder =
+                        cacheKeyGenerator.generateCacheKey(user.getUsername(), message.getGroupId().getId());
 
                 KeyPairEntity userKPE = (KeyPairEntity) entityService.
                         unwrapEntity(keyPairEntityRepository.
@@ -195,7 +197,8 @@ public class MessageServiceImpl implements MessageService {
 
         String text = message.getText();
 
-        UserKeyIvPair userKeyIvPair = keyCacheStore.get(auth.getName() + "." + SecurityConstants.CACHE_SECRET);
+        UserKeyIvPair userKeyIvPair = keyCacheStore.get(
+                cacheKeyGenerator.generateCacheKey(auth.getName(), message.getGroupId().getId()));
 
         if (userKeyIvPair == null) {
             throw new CacheException("there is no such message key in the cache");
