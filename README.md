@@ -35,6 +35,8 @@ The project follows best practices for GitHub repositories, ensuring a clean and
   
    ```bash
    ./mvnw spring-boot:run
+
+3. Don't forget to set up a postgresql db server.
 ## Learning Purpose
 
 This project was developed for learning purposes, combining Java Spring Boot, Spring Security, PostgreSQL, and Guava Cache to build a secure and efficient REST API. Feel free to explore, modify, and contribute to enhance the functionalities and security aspects of the SecureChat API.
