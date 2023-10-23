@@ -6,7 +6,7 @@ SecureChat API is a Java Spring Boot application that provides a secure and effi
 
 - **File Storage and Retrieval:** Easily upload and retrieve files through RESTful endpoints, making use of PostgreSQL for efficient data management.
 
-- **JWT Authorization and Authentication:** Implementing JSON Web Tokens (JWT) for secure user authentication and authorization, adding an extra layer of protection to your API.
+- **JWT Authorization and Authentication:** Implementing JSON Web Tokens (JWT) for secure user authentication and authorization, adding an extra layer of protection to my API.
 
 - **Group Creation and Messaging:** Users can create groups, collaborate with each other, and exchange messages within these groups. Messages are encrypted using broadcast encryption for enhanced security.
 
@@ -30,7 +30,7 @@ The project follows best practices for GitHub repositories, ensuring a clean and
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/secure-chat-api.git
+   git clone https://github.com/st3plox/secure-chat-api.git
 2. Run the project.
   
    ```bash
