@@ -24,8 +24,6 @@ The project follows best practices for GitHub repositories, ensuring a clean and
 
 - **src/main:** Contains the main source code of the application.
 - **src/test:** Includes test cases to validate the functionality of the implemented features.
-- **config:** Holds configuration files for Spring Boot and other settings.
-- **docs:** Documentation files for better understanding and usage of the API.
 
 ## Usage
 
@@ -33,3 +31,10 @@ The project follows best practices for GitHub repositories, ensuring a clean and
 
    ```bash
    git clone https://github.com/your-username/secure-chat-api.git
+2. Run the project.
+  
+   ```bash
+   ./mvnw spring-boot:run
+## Learning Purpose
+
+This project was developed for learning purposes, combining Java Spring Boot, Spring Security, PostgreSQL, and Guava Cache to build a secure and efficient REST API. Feel free to explore, modify, and contribute to enhance the functionalities and security aspects of the SecureChat API.
